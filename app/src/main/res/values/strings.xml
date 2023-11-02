@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">HW3</string>
+    <string name="welcome_text">Welcome to my HW3 app</string>
+    <string name="btn_back">Back</string>
+    <string name="city1_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus dolor arcu, sed elementum dui luctus sed. Sed aliquam purus purus, vitae maximus purus facilisis at.</string>
+    <string name="city2_desc">Nam ornare enim accumsan magna blandit tristique. Quisque blandit vitae urna eu pellentesque.</string>
+    <string name="city3_desc">Phasellus nibh odio, dignissim non purus non, mollis consectetur purus.</string>
+    <string name="city1_url">https://www.traveloffpath.com/wp-content/uploads/2023/03/Aerial-View-Of-Yerevan-Capital-Of-Armenia-Caucasus-Region-300x300.jpg</string>
+    <string name="city2_url">https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/37/20/ab/photo0jpg.jpg?w=300&amp;h=300&amp;s=1</string>
+    <string name="city3_url">https://www.torosphotos.com/photos/collections/amsterdam/cocktail-canal-Amsterdam-Netherlands-Nicola-Torosantucci-TorosPhotos-300x300.jpg</string>
+</resources>
