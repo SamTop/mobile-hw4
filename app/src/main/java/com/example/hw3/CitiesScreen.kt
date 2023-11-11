@@ -1,7 +1,5 @@
 package com.example.hw3
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,11 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.hw3.viewmodel.DataLoaderViewModel
 
 data class CityInfo(val name: String, val description: String, val imgUrl: String)
 
 @Composable
-fun CitiesScreen(navController: NavController) {
+fun CitiesScreen(navController: NavController, viewModel: DataLoaderViewModel) {
     val cities = arrayOf(
         CityInfo("Yerevan", stringResource(R.string.city1_desc), stringResource(R.string.city1_url)),
         CityInfo("Moscow", stringResource(R.string.city2_desc), stringResource(R.string.city2_url)),
@@ -50,7 +50,7 @@ fun CitiesScreen(navController: NavController) {
                     .weight(weight =1f, fill = false),
             ) {
                 cities.forEach { city ->
-                    CityView(city)
+                    CityView(city, viewModel)
                 }
             }
         }
@@ -65,14 +65,29 @@ fun CitiesScreen(navController: NavController) {
     }
 }
 
+fun fetchCity(viewModel: DataLoaderViewModel, city: CityInfo) {
+    viewModel.loadWeather(city.name, "84bbfd6562ad49c9964175819231111")
+}
+
 @Composable
-fun CityView(city: CityInfo) {
+fun CityView(city: CityInfo, viewModel: DataLoaderViewModel) {
+    val fetchedCity = viewModel.liveDataWeather.observeAsState()
+    fetchCity(viewModel, city)
+
     Column (modifier = Modifier.padding(vertical = 15.dp)) {
         Text(
             text = city.name,
             fontSize = 30.sp
         )
         Text(text = city.description)
+        fetchedCity.value?.let {response ->
+            response.weather?.let {
+                Text("${response.weather.degrees} degrees")
+            }
+            response.error?.let {
+                Text("Error: ${response.error}")
+            }
+        }
         AsyncImage(model = city.imgUrl, contentDescription = "")
     }
 }

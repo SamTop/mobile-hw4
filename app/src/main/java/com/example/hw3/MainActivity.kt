@@ -16,8 +16,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.hw3.ui.theme.HW3Theme
+import com.example.hw3.viewmodel.DataLoaderViewModel
+import androidx.activity.viewModels
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: DataLoaderViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -32,14 +36,15 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
 
-@Composable
-fun MainNavScreen() {
-    val navController = rememberNavController()
+    @Composable
+    fun MainNavScreen() {
+        val navController = rememberNavController()
 
-    NavHost(navController, startDestination = "welcomeView") {
-        composable("welcomeView") { WelcomeScreen(navController) }
-        composable("citiesView") { CitiesScreen(navController) }
+        NavHost(navController, startDestination = "welcomeView") {
+            composable("welcomeView") { WelcomeScreen(navController) }
+            composable("citiesView") { CitiesScreen(navController, viewModel) }
+        }
     }
 }
+
