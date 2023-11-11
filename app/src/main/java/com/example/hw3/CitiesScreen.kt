@@ -65,14 +65,14 @@ fun CitiesScreen(navController: NavController, viewModel: DataLoaderViewModel) {
     }
 }
 
-fun fetchCity(viewModel: DataLoaderViewModel, city: CityInfo) {
-    viewModel.loadWeather(city.name, "84bbfd6562ad49c9964175819231111")
+fun fetchCity(viewModel: DataLoaderViewModel, cityName: String) {
+    viewModel.loadWeather(cityName, "84bbfd6562ad49c9964175819231111")
 }
 
 @Composable
 fun CityView(city: CityInfo, viewModel: DataLoaderViewModel) {
-    val fetchedCity = viewModel.liveDataWeather.observeAsState()
-    fetchCity(viewModel, city)
+    val cities = viewModel.liveDataWeather.observeAsState()
+    fetchCity(viewModel, city.name)
 
     Column (modifier = Modifier.padding(vertical = 15.dp)) {
         Text(
@@ -80,12 +80,15 @@ fun CityView(city: CityInfo, viewModel: DataLoaderViewModel) {
             fontSize = 30.sp
         )
         Text(text = city.description)
-        fetchedCity.value?.let {response ->
-            response.weather?.let {
-                Text("${response.weather.degrees} degrees")
-            }
-            response.error?.let {
-                Text("Error: ${response.error}")
+        cities.value?.let {cities ->
+            val response = cities[city.name]
+            response?.let {
+                response.weather?.let {
+                    Text("${response.weather.degrees} degrees")
+                }
+                response.error?.let {
+                    Text("Error: ${response.error}")
+                }
             }
         }
         AsyncImage(model = city.imgUrl, contentDescription = "")

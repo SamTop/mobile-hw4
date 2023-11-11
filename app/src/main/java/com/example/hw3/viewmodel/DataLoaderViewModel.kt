@@ -10,12 +10,19 @@ import com.example.hw3.repository.WeatherResponse
 
 class DataLoaderViewModel : ViewModel() {
     private val repository = DataLoaderRepository()
-    private val _liveDataWeather = MutableLiveData<WeatherResponse>()
-    val liveDataWeather: LiveData<WeatherResponse> = _liveDataWeather
+    private val _liveDataWeather = MutableLiveData<HashMap<String, WeatherResponse>>()
+    val liveDataWeather: LiveData<HashMap<String, WeatherResponse>> = _liveDataWeather
 
     fun loadWeather(q: String, apiKey: String) {
         viewModelScope.launch {
-            _liveDataWeather.postValue(repository.loadWeather(q, apiKey))
+            val res = repository.loadWeather(q, apiKey)
+            var newMap = HashMap<String, WeatherResponse>()
+            if (_liveDataWeather.value != null) {
+                newMap = _liveDataWeather.value?.let { HashMap(it) }!!
+            }
+
+            newMap.set(q, res)
+            _liveDataWeather.postValue(newMap)
         }
     }
 }

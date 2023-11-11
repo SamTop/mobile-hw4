@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.hw3"
-        minSdk = 27
+        minSdk = 33
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -71,5 +71,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("androidx.compose.runtime:runtime-livedata:1.5.2")
+    implementation ("com.google.android.gms:play-services-location:17.0.0")
 
 }
